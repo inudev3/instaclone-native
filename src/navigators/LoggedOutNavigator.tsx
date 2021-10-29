@@ -3,19 +3,20 @@ import { createStackNavigator } from "@react-navigation/stack";
 import CreateAccount from "../screeens/CreateAccount";
 import Login from "../screeens/Login";
 import Welcome from "../screeens/Welcome";
+import { RootStackParamList } from "../types";
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<RootStackParamList>();
 
-export default function LoggedOutNavigator() {
+export default function LoggedOutNav() {
   return (
     <Stack.Navigator
       screenOptions={{
-        headerBackTitleVisible: false,
+        headerBackTitleVisible: true,
       }}
     >
       <Stack.Screen
         name="Welcome"
-        options={{ title: "Welcome Baby", headerShown: false }}
+        options={{ headerShown: false }}
         component={Welcome}
       />
       <Stack.Screen name="Login" component={Login} />

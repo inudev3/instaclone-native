@@ -12,41 +12,54 @@ import {
   AppearanceProvider,
   useColorScheme,
 } from "react-native-appearance";
+import { ApolloProvider, useReactiveVar } from "@apollo/client";
+import client, { isLoggedInVar, tokenVar } from "./apollo";
+import LoggedInNav from "./navigators/LoggedInNavigator";
+import LoggedOutNav from "./navigators/LoggedOutNavigator";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function App() {
   const [loading, setLoading] = useState(true);
   const onFinish = () => setLoading(false);
-  const preload = async () => {
+  const preloadAssets = () => {
     const fontsToLoad = [Ionicons.font];
     const fontPromises = fontsToLoad.map((font) => Font.loadAsync(font));
     const imagesToLoad = [
-      require("./assets/splash.png"),
+      require("../assets/splash.png"),
       "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Instagram_logo.svg/840px-Instagram_logo.svg.png",
     ];
     const imagePromises = imagesToLoad.map((image) => Asset.loadAsync(image));
     const newPromises = [...imagePromises, ...fontPromises];
-
-    await Promise.all<Promise<void> | Promise<Asset[]>>([
+    return Promise.all<Promise<void> | Promise<Asset[]>>([
       ...fontPromises,
       ...imagePromises,
     ]);
   };
-  if (loading) {
-    return (
-      <AppLoading
-        onError={console.warn}
-        onFinish={onFinish}
-        startAsync={preload}
-      />
-    );
-  }
+
+  const preload = async () => {
+    const token = await AsyncStorage.getItem("token");
+    if (token) {
+      isLoggedInVar(true);
+      tokenVar(token);
+    }
+    return preloadAssets();
+  };
   const subscription = Appearance.addChangeListener(({ colorScheme }) =>
     console.log(colorScheme)
   );
+  const isLoggedIn = useReactiveVar(isLoggedInVar);
   const light = Appearance.getColorScheme() === "light";
-  return (
-    <NavigationContainer>
-      <LoggedOutNavigator />
-    </NavigationContainer>
+  return loading ? (
+    <AppLoading
+      onError={console.warn}
+      onFinish={onFinish}
+      startAsync={preload}
+    />
+  ) : (
+    <ApolloProvider client={client}>
+      <NavigationContainer>
+        {isLoggedIn ? <LoggedInNav /> : <LoggedOutNav />}
+      </NavigationContainer>
+    </ApolloProvider>
   );
 }
