@@ -7,7 +7,7 @@ import Me from "../screeens/Me";
 import Notifications from "../screeens/Notifications";
 import { Image, View } from "react-native";
 import { RootStackParamList, TabParamList } from "../types";
-import Photo from "../screeens/Photo";
+import PhotoScreen from "../screeens/Photo";
 
 type Prop = {
   screenName: keyof TabParamList;
@@ -53,7 +53,7 @@ export default function SharedStackNav({ screenName }: Prop) {
       ) : null}
       {screenName === "Me" ? <Stack.Screen name="Me" component={Me} /> : null}
       <Stack.Screen name="Profile" component={Profile} />
-      <Stack.Screen name="Photo" component={Photo} />
+      <Stack.Screen name="PhotoScreen" component={PhotoScreen} />
     </Stack.Navigator>
   );
 }

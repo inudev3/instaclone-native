@@ -15,7 +15,7 @@ export default function Search({
         justifyContent: "center",
       }}
     >
-      <TouchableOpacity onPress={() => navigation.navigate("Photo")}>
+      <TouchableOpacity onPress={() => navigation.navigate("PhotoScreen")}>
         <Text style={{ color: "white" }}>Search</Text>
       </TouchableOpacity>
     </View>

@@ -11,6 +11,6 @@ export type TabParamList = {
   Notifications: undefined;
   Search: undefined;
   Profile: undefined;
-  Photo: undefined;
+  PhotoScreen: undefined;
   Me: undefined;
 };

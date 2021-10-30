@@ -1,12 +1,23 @@
 import React from "react";
-import { View, Text } from "react-native";
+import {
+  View,
+  Text,
+  ActivityIndicator,
+  FlatList,
+  FlatListProps,
+  ListRenderItem,
+} from "react-native";
 import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import { TabParamList } from "../types";
 import { COMMENT_FRAGMENT, PHOTO_FRAGMENT } from "../fragments";
+import { gql, useQuery } from "@apollo/client";
+import ScreenLayOut from "../components/ScreenLayout";
+import { seeFeed, seeFeed_seeFeed } from "../__generated__/seeFeed";
+import Photo from "../components/Photo";
 
 export const FEED_QUERY = gql`
-  query seeFeed($lastId: Int) {
-    seeFeed(lastId: $lastId) {
+  query seeFeed {
+    seeFeed {
       ...PhotoFragment
       user {
         username
@@ -27,16 +38,19 @@ export const FEED_QUERY = gql`
 export default function Feed(
   props: BottomTabScreenProps<TabParamList, "Feed">
 ) {
+  const { data, loading } = useQuery<seeFeed>(FEED_QUERY);
+  console.log(data);
+  const renderPhoto: ListRenderItem<seeFeed_seeFeed> = ({ item: photo }) => {
+    return <Photo {...photo} />;
+  };
+
   return (
-    <View
-      style={{
-        backgroundColor: "black",
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      <Text style={{ color: "white" }}>Hello</Text>
-    </View>
+    <ScreenLayOut loading={loading}>
+      <FlatList
+        data={data?.seeFeed}
+        renderItem={renderPhoto}
+        keyExtractor={(photo) => "" + photo.id}
+      />
+    </ScreenLayOut>
   );
 }

@@ -9,7 +9,6 @@ import { Ionicons } from "@expo/vector-icons";
 import { View } from "react-native";
 import TabIcon from "../components/nav/TabIcon";
 import SharedStackNav from "./SharedStackNav";
-import Photo from "../screeens/Photo";
 
 const Tabs = createBottomTabNavigator<TabParamList>();
 
@@ -47,14 +46,14 @@ export default function LoggedInNav() {
         {() => <SharedStackNav screenName="Search" />}
       </Tabs.Screen>
       <Tabs.Screen
-        name="Photo"
+        name="PhotoScreen"
         options={{
           tabBarIcon: ({ focused, color, size }) => (
             <TabIcon iconName="camera" color={color} focused={focused} />
           ),
         }}
       >
-        {() => <SharedStackNav screenName="Photo" />}
+        {() => <SharedStackNav screenName="PhotoScreen" />}
       </Tabs.Screen>
       <Tabs.Screen
         name="Notifications"

@@ -30,10 +30,7 @@ export default function App() {
     ];
     const imagePromises = imagesToLoad.map((image) => Asset.loadAsync(image));
     const newPromises = [...imagePromises, ...fontPromises];
-    return Promise.all<Promise<void> | Promise<Asset[]>>([
-      ...fontPromises,
-      ...imagePromises,
-    ]);
+    return Promise.all<void | Asset[]>([...fontPromises, ...imagePromises]);
   };
 
   const preload = async () => {
@@ -42,7 +39,7 @@ export default function App() {
       isLoggedInVar(true);
       tokenVar(token);
     }
-    return preloadAssets();
+    await preloadAssets();
   };
   const subscription = Appearance.addChangeListener(({ colorScheme }) =>
     console.log(colorScheme)
