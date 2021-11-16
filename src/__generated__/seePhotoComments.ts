@@ -14,6 +14,23 @@ export interface seePhotoComments_seePhotoComments_user {
   avatar: string | null;
 }
 
+export interface seePhotoComments_seePhotoComments_photo_user {
+  __typename: "User";
+  id: number;
+  username: string;
+  avatar: string | null;
+}
+
+export interface seePhotoComments_seePhotoComments_photo {
+  __typename: "Photo";
+  id: number;
+  file: string;
+  likes: number;
+  commentNumber: number;
+  isLiked: boolean;
+  user: seePhotoComments_seePhotoComments_photo_user;
+}
+
 export interface seePhotoComments_seePhotoComments {
   __typename: "Comment";
   id: number;
@@ -21,6 +38,7 @@ export interface seePhotoComments_seePhotoComments {
   payload: string;
   isMine: boolean;
   createdAt: string;
+  photo: seePhotoComments_seePhotoComments_photo;
 }
 
 export interface seePhotoComments {

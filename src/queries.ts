@@ -59,9 +59,13 @@ export const SEEPHOTOCOMMENTS_QUERY = gql`
       payload
       isMine
       createdAt
+      photo {
+        ...PhotoFragment
+      }
     }
   }
   ${USER_FRAGMENT}
+  ${PHOTO_FRAGMENT}
 `;
 export const SEE_PHOTO_QUERY = gql`
   query seePhoto($id: Int!) {

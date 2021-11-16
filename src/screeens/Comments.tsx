@@ -56,6 +56,7 @@ export default function Comments({
   const { data, loading, refetch } = useQuery<seePhotoComments>(
     SEEPHOTOCOMMENTS_QUERY,
     {
+      fetchPolicy: "cache-and-network",
       variables: {
         id: params?.photoId,
       },
@@ -77,8 +78,9 @@ export default function Comments({
         setValue("commentPayload", "");
         if (ok && userData?.me) {
           const newComment = {
+            __typename: "Comment",
             id: newId,
-            createdAt: Date.now(),
+            createdAt: Date.now() + "",
             isMine: true,
             payload: commentPayload,
             user: {
@@ -88,13 +90,12 @@ export default function Comments({
           console.log(newComment);
           const fragmentId = `Photo:${params?.photoId}`;
           const newCacheComment = cache.writeFragment({
-            id: `Comment:${newId}`,
             data: newComment,
             fragment: COMMENT_FRAGMENT,
           });
           console.log(newCacheComment);
           cache.modify({
-            id: fragmentId,
+            id: `Photo:${params?.photoId}`,
             fields: {
               comments(prev) {
                 return [...prev, newCacheComment];

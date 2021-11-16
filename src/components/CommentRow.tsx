@@ -72,7 +72,7 @@ export const CommentRow = ({
   const { edit } = getValues();
   const [editMode, setEditMode] = useState(false);
 
-  const { id, user, payload, isMine, createdAt } = comment;
+  const { id, user, payload, isMine, createdAt, photo } = comment;
 
   const [deleteCommentMutation, { data: deleteData, loading: deleteLoading }] =
     useMutation<deleteComment>(DELETE_COMMENT_MUTATION, {
@@ -85,6 +85,14 @@ export const CommentRow = ({
         } = result as any;
         if (ok) {
           cache.evict({ id: `Comment:${id}` });
+          cache.modify({
+            id: `Photo:${photo.id}`,
+            fields: {
+              commentNumber(prev) {
+                return prev - 1;
+              },
+            },
+          });
         }
       },
     });
