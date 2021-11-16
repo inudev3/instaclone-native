@@ -1,4 +1,7 @@
 import { ReactNode } from "react";
+import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
+import { NativeStackScreenProps } from "react-native-screens/native-stack";
+import { CompositeScreenProps } from "@react-navigation/native";
 
 export type PropsWithChildren<P> = P & { children?: ReactNode };
 export type RootStackParamList = {
@@ -7,10 +10,46 @@ export type RootStackParamList = {
   CreateAccount: undefined;
 };
 export type TabParamList = {
-  Feed: undefined;
+  Feed: { userId: number; lastId: number } | undefined;
   Notifications: undefined;
   Search: undefined;
-  Profile: undefined;
+  Profile: { username: string } | undefined;
   PhotoScreen: undefined;
   Me: undefined;
+  Likes: { photoId: number } | undefined;
+  Comments: { photoId: number } | undefined;
 };
+
+type ProfileScreenTabProp = BottomTabScreenProps<TabParamList, "Profile">;
+type ProfileScreenStackProp = NativeStackScreenProps<TabParamList, "Profile">;
+
+export type ProfileScreenProp = CompositeScreenProps<
+  NativeStackScreenProps<TabParamList, "Profile">,
+  BottomTabScreenProps<TabParamList>
+>;
+
+export type PhotoScreenProp = CompositeScreenProps<
+  NativeStackScreenProps<TabParamList, "PhotoScreen">,
+  BottomTabScreenProps<TabParamList>
+>;
+export type SearchScreenProp = CompositeScreenProps<
+  NativeStackScreenProps<TabParamList, "Search">,
+  BottomTabScreenProps<TabParamList>
+>;
+export type NotificationsScreenProp = CompositeScreenProps<
+  NativeStackScreenProps<TabParamList, "Notifications">,
+  BottomTabScreenProps<TabParamList>
+>;
+
+export type FeedScreenProp = CompositeScreenProps<
+  NativeStackScreenProps<TabParamList, "Feed">,
+  BottomTabScreenProps<TabParamList>
+>;
+export type LikeScreenProps = CompositeScreenProps<
+  NativeStackScreenProps<TabParamList, "Likes">,
+  BottomTabScreenProps<TabParamList>
+>;
+export type CommentScreenProps = CompositeScreenProps<
+  NativeStackScreenProps<TabParamList, "Comments">,
+  BottomTabScreenProps<TabParamList>
+>;

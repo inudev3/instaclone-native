@@ -1,11 +1,10 @@
 import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
-import { TabParamList } from "../types";
+import { PhotoScreenProp, TabParamList } from "../types";
+import { NativeStackScreenProps } from "react-native-screens/native-stack";
 
-export default function PhotoScreen({
-  navigation,
-}: BottomTabScreenProps<TabParamList, "PhotoScreen">) {
+export default function PhotoScreen({ navigation }: PhotoScreenProp) {
   return (
     <View
       style={{

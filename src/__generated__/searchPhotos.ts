@@ -4,10 +4,10 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL fragment: PhotoFragment
+// GraphQL query operation: searchPhotos
 // ====================================================
 
-export interface PhotoFragment_user {
+export interface searchPhotos_searchPhotos_user {
   __typename: "User";
   id: number;
   username: string;
@@ -16,12 +16,17 @@ export interface PhotoFragment_user {
   isMe: boolean;
 }
 
-export interface PhotoFragment {
+export interface searchPhotos_searchPhotos {
   __typename: "Photo";
   id: number;
   file: string;
-  likes: number;
-  commentNumber: number;
-  isLiked: boolean;
-  user: PhotoFragment_user;
+  user: searchPhotos_searchPhotos_user;
+}
+
+export interface searchPhotos {
+  searchPhotos: (searchPhotos_searchPhotos | null)[] | null;
+}
+
+export interface searchPhotosVariables {
+  keyword: string;
 }

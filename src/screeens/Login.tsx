@@ -9,6 +9,7 @@ import AuthButton from "../components/auth/AuthButton";
 import { gql, useMutation } from "@apollo/client";
 import { isLoggedInVar, logUserIn } from "../apollo";
 import { login, loginVariables } from "../__generated__/login";
+import { Login_mutation } from "../mutations";
 
 type FormProp = {
   username: string;
@@ -17,15 +18,6 @@ type FormProp = {
 };
 type Props = NativeStackScreenProps<RootStackParamList, "Login">;
 
-const Login_mutation = gql`
-  mutation login($username: String!, $password: String!) {
-    login(username: $username, password: $password) {
-      ok
-      token
-      error
-    }
-  }
-`;
 export default function Login({ navigation, route: { params } }: Props) {
   const { register, handleSubmit, setValue, control, reset, formState, watch } =
     useForm<FormProp>({

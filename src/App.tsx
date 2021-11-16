@@ -13,9 +13,11 @@ import {
   useColorScheme,
 } from "react-native-appearance";
 import { ApolloProvider, useReactiveVar } from "@apollo/client";
-import client, { isLoggedInVar, tokenVar } from "./apollo";
+import client, { cache, isLoggedInVar, tokenVar } from "./apollo";
 import LoggedInNav from "./navigators/LoggedInNavigator";
 import LoggedOutNav from "./navigators/LoggedOutNavigator";
+
+import { AsyncStorageWrapper, persistCache } from "apollo3-cache-persist";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function App() {
@@ -39,6 +41,11 @@ export default function App() {
       isLoggedInVar(true);
       tokenVar(token);
     }
+    await persistCache({
+      cache,
+      storage: new AsyncStorageWrapper(AsyncStorage),
+      serialize: false, //schema change를 할 수 있게 하려면 false
+    });
     await preloadAssets();
   };
   const subscription = Appearance.addChangeListener(({ colorScheme }) =>

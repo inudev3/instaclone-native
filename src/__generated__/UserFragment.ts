@@ -4,24 +4,14 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL fragment: PhotoFragment
+// GraphQL fragment: UserFragment
 // ====================================================
 
-export interface PhotoFragment_user {
+export interface UserFragment {
   __typename: "User";
   id: number;
   username: string;
   avatar: string | null;
   isFollowing: boolean;
   isMe: boolean;
-}
-
-export interface PhotoFragment {
-  __typename: "Photo";
-  id: number;
-  file: string;
-  likes: number;
-  commentNumber: number;
-  isLiked: boolean;
-  user: PhotoFragment_user;
 }

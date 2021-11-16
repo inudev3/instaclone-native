@@ -1,7 +1,7 @@
 {
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "start": "npm run --prefix ~/instaclone kill & expo start",
+    "start": "sudo service postgresql start & npm run --prefix ~/instaclone kill & expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
@@ -11,7 +11,7 @@
   "dependencies": {
     "@apollo/client": "^3.4.16",
     "@babel/core": "^7.15.8",
-    "@react-native-async-storage/async-storage": "~1.15.0",
+    "@react-native-async-storage/async-storage": "^1.15.9",
     "@react-navigation/bottom-tabs": "^6.0.9",
     "@react-navigation/native": "^6.0.6",
     "@react-navigation/stack": "^6.0.11",
@@ -22,6 +22,7 @@
     "@types/styled-components": "^5.1.15",
     "@types/styled-components-react-native": "^5.1.2",
     "@unimodules/react-native-adapter": "^6.3.9",
+    "apollo3-cache-persist": "^0.13.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
     "expo": "^43.0.0",

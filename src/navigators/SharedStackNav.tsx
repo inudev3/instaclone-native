@@ -8,6 +8,8 @@ import Notifications from "../screeens/Notifications";
 import { Image, View } from "react-native";
 import { RootStackParamList, TabParamList } from "../types";
 import PhotoScreen from "../screeens/Photo";
+import Likes from "../screeens/Likes";
+import Comments from "../screeens/Comments";
 
 type Prop = {
   screenName: keyof TabParamList;
@@ -52,8 +54,16 @@ export default function SharedStackNav({ screenName }: Prop) {
         <Stack.Screen name="Notifications" component={Notifications} />
       ) : null}
       {screenName === "Me" ? <Stack.Screen name="Me" component={Me} /> : null}
-      <Stack.Screen name="Profile" component={Profile} />
+      <Stack.Screen
+        name="Profile"
+        component={Profile}
+        options={({ route }) => ({
+          title: route.params?.username,
+        })}
+      />
       <Stack.Screen name="PhotoScreen" component={PhotoScreen} />
+      <Stack.Screen name="Likes" component={Likes} />
+      <Stack.Screen name="Comments" component={Comments} />
     </Stack.Navigator>
   );
 }

@@ -6,13 +6,17 @@ import Profile from "../screeens/Profile";
 import Notifications from "../screeens/Notifications";
 import Search from "../screeens/Search";
 import { Ionicons } from "@expo/vector-icons";
-import { View } from "react-native";
+import { Image, View } from "react-native";
 import TabIcon from "../components/nav/TabIcon";
 import SharedStackNav from "./SharedStackNav";
+import useMe from "../hooks/useMe";
+import { me } from "../__generated__/me";
 
 const Tabs = createBottomTabNavigator<TabParamList>();
 
 export default function LoggedInNav() {
+  const { data } = useMe();
+
   return (
     <Tabs.Navigator
       screenOptions={{
@@ -66,14 +70,28 @@ export default function LoggedInNav() {
         {() => <SharedStackNav screenName="Notifications" />}
       </Tabs.Screen>
       <Tabs.Screen
-        name="Profile"
+        name="Me"
         options={{
-          tabBarIcon: ({ focused, color, size }) => (
-            <TabIcon iconName="person" color={color} focused={focused} />
-          ),
+          tabBarIcon: ({ focused, color, size }) =>
+            data?.me?.avatar ? (
+              <Image
+                source={{ uri: data?.me?.avatar }}
+                style={{
+                  height: 20,
+                  width: 20,
+                  borderRadius: 10,
+                  ...(focused && {
+                    borderColor: "white",
+                    borderWidth: 1,
+                  }),
+                }}
+              />
+            ) : (
+              <TabIcon iconName="person" color={color} focused={focused} />
+            ),
         }}
       >
-        {() => <SharedStackNav screenName="Profile" />}
+        {() => <SharedStackNav screenName="Me" />}
       </Tabs.Screen>
     </Tabs.Navigator>
   );

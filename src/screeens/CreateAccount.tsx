@@ -15,26 +15,6 @@ import { isLoggedInVar } from "../apollo";
 import { NativeStackScreenProps } from "react-native-screens/native-stack";
 import { RootStackParamList } from "../types";
 
-const CREATE_ACCOUNT_MUTATION = gql`
-  mutation createAccount(
-    $firstName: String!
-    $lastName: String
-    $username: String!
-    $email: String!
-    $password: String!
-  ) {
-    createAccount(
-      firstName: $firstName
-      lastName: $lastName
-      username: $username
-      email: $email
-      password: $password
-    ) {
-      ok
-      error
-    }
-  }
-`;
 const Container = styled.View`
   flex: 1;
   background-color: black;

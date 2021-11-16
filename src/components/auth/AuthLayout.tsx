@@ -8,6 +8,7 @@ import {
   View,
 } from "react-native";
 import { Platform } from "@unimodules/react-native-adapter";
+import DismissKeyboard from "../DismissKeyboard";
 
 const Container = styled.View`
   flex: auto;
@@ -28,11 +29,7 @@ export default function AuthLayout({ children }: PropsWithChildren<any>) {
     Keyboard.dismiss();
   };
   return (
-    <TouchableWithoutFeedback
-      style={{ flex: 1 }}
-      onPress={dismissKeyboard}
-      disabled={Platform.OS === "web"}
-    >
+    <DismissKeyboard>
       <Container>
         <KeyboardAvoidingView
           style={{
@@ -51,6 +48,6 @@ export default function AuthLayout({ children }: PropsWithChildren<any>) {
           {children}
         </KeyboardAvoidingView>
       </Container>
-    </TouchableWithoutFeedback>
+    </DismissKeyboard>
   );
 }
