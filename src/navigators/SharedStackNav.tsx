@@ -7,7 +7,7 @@ import Me from "../screeens/Me";
 import Notifications from "../screeens/Notifications";
 import { Image, View } from "react-native";
 import { RootStackParamList, TabParamList } from "../types";
-import PhotoScreen from "../screeens/Photo";
+import PhotoScreen from "../screeens/PhotoScreen";
 import Likes from "../screeens/Likes";
 import Comments from "../screeens/Comments";
 

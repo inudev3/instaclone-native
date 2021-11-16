@@ -12,8 +12,6 @@ export interface seePhotoComments_seePhotoComments_user {
   id: number;
   username: string;
   avatar: string | null;
-  isFollowing: boolean;
-  isMe: boolean;
 }
 
 export interface seePhotoComments_seePhotoComments {

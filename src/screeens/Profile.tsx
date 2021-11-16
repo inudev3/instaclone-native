@@ -113,9 +113,8 @@ export default function Profile({
     return (
       <ProfilePhoto
         onPress={() =>
-          navigation.navigate("Feed", {
-            userId: photo.user.id,
-            lastId: photo.id,
+          navigation.navigate("PhotoScreen", {
+            photoId: photo.id,
           })
         }
       >

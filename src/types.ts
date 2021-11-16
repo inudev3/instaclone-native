@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import { NativeStackScreenProps } from "react-native-screens/native-stack";
 import { CompositeScreenProps } from "@react-navigation/native";
+import { seeFeed_seeFeed } from "./__generated__/seeFeed";
 
 export type PropsWithChildren<P> = P & { children?: ReactNode };
 export type RootStackParamList = {
@@ -14,7 +15,7 @@ export type TabParamList = {
   Notifications: undefined;
   Search: undefined;
   Profile: { username: string } | undefined;
-  PhotoScreen: undefined;
+  PhotoScreen: { photoId: number } | undefined;
   Me: undefined;
   Likes: { photoId: number } | undefined;
   Comments: { photoId: number } | undefined;

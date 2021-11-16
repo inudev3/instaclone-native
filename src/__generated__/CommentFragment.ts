@@ -9,8 +9,9 @@
 
 export interface CommentFragment_user {
   __typename: "User";
-  username: string;
+  id: number;
   avatar: string | null;
+  username: string;
 }
 
 export interface CommentFragment {

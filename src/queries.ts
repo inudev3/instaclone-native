@@ -1,5 +1,5 @@
 import { gql } from "@apollo/client";
-import { PHOTO_FRAGMENT, USER_FRAGMENT } from "./fragments";
+import { COMMENT_FRAGMENT, PHOTO_FRAGMENT, USER_FRAGMENT } from "./fragments";
 
 export const SEARCH_PHOTOS = gql`
   query searchPhotos($keyword: String!) {
@@ -37,21 +37,17 @@ export const SEEPROFILE_QUERY = gql`
 export const FEED_QUERY = gql`
   query seeFeed($lastId: Int) {
     seeFeed(lastId: $lastId) {
-      id
-      user {
-        id
-        username
-        avatar
-      }
-      file
+      ...PhotoFragment
       caption
-      likes
-      commentNumber
       createdAt
       isMine
-      isLiked
+      comments {
+        ...CommentFragment
+      }
     }
   }
+  ${PHOTO_FRAGMENT}
+  ${COMMENT_FRAGMENT}
 `;
 export const SEEPHOTOCOMMENTS_QUERY = gql`
   query seePhotoComments($id: Int!) {
@@ -60,15 +56,25 @@ export const SEEPHOTOCOMMENTS_QUERY = gql`
       user {
         ...UserFragment
       }
-      photo {
-        ...PhotoFragment
-      }
       payload
       isMine
       createdAt
-      updatedAt
     }
   }
   ${USER_FRAGMENT}
+`;
+export const SEE_PHOTO_QUERY = gql`
+  query seePhoto($id: Int!) {
+    seePhoto(id: $id) {
+      ...PhotoFragment
+      caption
+      createdAt
+      isMine
+      comments {
+        ...CommentFragment
+      }
+    }
+  }
   ${PHOTO_FRAGMENT}
+  ${COMMENT_FRAGMENT}
 `;

@@ -17,6 +17,9 @@ import { gql, useMutation } from "@apollo/client";
 import { BSname } from "../__generated__/BSname";
 import { toggleLike } from "../__generated__/toggleLike";
 import { TOGGLE_LIKE_MUTATION } from "../mutations";
+import CommentSection from "./CommentSection";
+import { seePhoto_seePhoto } from "../__generated__/seePhoto";
+import { CommentRow } from "./CommentRow";
 
 const Container = styled.View``;
 const Header = styled.TouchableOpacity`
@@ -42,6 +45,7 @@ const Username = styled.Text`
 const Action = styled.TouchableOpacity``;
 const Caption = styled.View`
   flex-direction: row;
+  padding: 5px;
 `;
 const CaptionText = styled.Text`
   color: white;
@@ -57,13 +61,11 @@ const ExtraContainer = styled.View`
 `;
 
 export default function Photo({
-  id,
-  user,
-  caption,
-  file,
-  isLiked,
-  likes,
-}: seeFeed_seeFeed) {
+  ...photo
+}: seeFeed_seeFeed | seePhoto_seePhoto) {
+  const { id, user, caption, file, isLiked, likes, commentNumber, comments } =
+    photo;
+
   const [toggleLikeMutation, { data, loading, error }] =
     useMutation<toggleLike>(TOGGLE_LIKE_MUTATION, {
       variables: { id },
@@ -139,13 +141,31 @@ export default function Photo({
         <Likes onPress={() => navigation.navigate("Likes", { photoId: id })}>
           {likes === 1 ? "1 like" : `${likes} likes`}
         </Likes>
-
         <Caption>
           <TouchableOpacity onPress={goToProfile}>
             <Username>{user.username}</Username>
           </TouchableOpacity>
           <CaptionText>{caption}</CaptionText>
         </Caption>
+        {commentNumber > 3 ? (
+          <>
+            <Text
+              onPress={() =>
+                navigation.navigate("Comments", { photoId: photo.id })
+              }
+            >
+              ...댓글 {commentNumber - 3}개 더 보기
+            </Text>
+            {comments.slice(-3, 3).map((comment) => (
+              <CommentRow {...comment} fullView={false} />
+            ))}
+          </>
+        ) : (
+          comments &&
+          comments.map((comment) => (
+            <CommentRow {...comment} fullView={false} />
+          ))
+        )}
       </ExtraContainer>
     </Container>
   );

@@ -1,16 +1,28 @@
 import FollowBtn from "./FollowBtn";
-import React from "react";
+import React, { useState } from "react";
 import { seePhotoComments_seePhotoComments } from "../__generated__/seePhotoComments";
 import { useNavigation } from "@react-navigation/native";
 import { CommentScreenProps } from "../types";
 import styled from "styled-components/native";
-import { View } from "react-native";
+import { Button, Text, View } from "react-native";
+import { useMutation } from "@apollo/client";
+import {
+  CREATE_COMMENT_MUTATION,
+  DELETE_COMMENT_MUTATION,
+  EDIT_COMMENT_MUTATION,
+} from "../mutations";
+import { createComment } from "../__generated__/createComment";
+import { editComment } from "../__generated__/editComment";
+import { deleteComment } from "../__generated__/deleteComment";
+import { cache } from "../apollo";
+import { SubmitHandler, useForm } from "react-hook-form";
+import useMe from "../hooks/useMe";
 
 const Wrapper = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding: 5px 15px;
+  pading: 5px 10px;
 `;
 
 const Column = styled.TouchableOpacity`
@@ -27,7 +39,7 @@ const CommentInfo = styled.View`
   flex-direction: column;
   justify-content: space-between;
 `;
-const Date = styled.Text`
+const TimeStamp = styled.Text`
   font-size: 12px;
   opacity: 0.5;
   color: white;
@@ -41,12 +53,46 @@ const Payload = styled.Text`
   font-weight: 450;
   color: white;
 `;
+const DeleteButton = styled.TouchableOpacity`
+  background-color: black;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 20px;
+`;
+type CommentForm = {
+  edit: string;
+};
 export const CommentRow = ({
+  fullView,
   ...comment
-}: seePhotoComments_seePhotoComments) => {
-  const navigation = useNavigation<CommentScreenProps>();
+}: seePhotoComments_seePhotoComments & { fullView: boolean }) => {
+  const { register, handleSubmit, getValues, control, setValue } =
+    useForm<CommentForm>();
+  const { edit } = getValues();
+  const [editMode, setEditMode] = useState(false);
+
   const { id, user, payload, isMine, createdAt } = comment;
-  console.log(comment);
+
+  const [deleteCommentMutation, { data: deleteData, loading: deleteLoading }] =
+    useMutation<deleteComment>(DELETE_COMMENT_MUTATION, {
+      variables: { id },
+      update: (cache, result) => {
+        const {
+          data: {
+            deleteComment: { ok },
+          },
+        } = result as any;
+        if (ok) {
+          cache.evict({ id: `Comment:${id}` });
+        }
+      },
+    });
+  const onDeleteClick = () => {
+    deleteCommentMutation();
+  };
+  const navigation = useNavigation<CommentScreenProps>();
+
   return (
     <Wrapper>
       <Column
@@ -57,17 +103,29 @@ export const CommentRow = ({
           })
         }
       >
-        <Avatar source={{ uri: user.avatar }} />
-        <CommentInfo>
-          <View style={{ flexDirection: "row" }}>
-            <Username>{user.username}</Username>
-            <Payload>{payload}</Payload>
-          </View>
-          <View>
-            <Date>{createdAt}</Date>
+        {fullView ? <Avatar source={{ uri: user.avatar }} /> : null}
+
+        <CommentInfo style={{ flexDirection: "row" }}>
+          <View style={{ flexDirection: "column" }}>
+            <View style={{ flexDirection: "row" }}>
+              <Username>{user.username}</Username>
+              <Payload>{payload}</Payload>
+            </View>
+            {fullView && (
+              <View>
+                <TimeStamp>{new Date(createdAt).toTimeString()}</TimeStamp>
+              </View>
+            )}
           </View>
         </CommentInfo>
       </Column>
+      {isMine ? (
+        <View style={{ flexDirection: "row" }}>
+          <DeleteButton activeOpacity={0.7} onPress={() => onDeleteClick()}>
+            <Text style={{ color: "white", opacity: 0.7 }}>Delete</Text>
+          </DeleteButton>
+        </View>
+      ) : null}
     </Wrapper>
   );
 };

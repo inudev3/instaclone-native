@@ -12,8 +12,6 @@ export interface seeProfile_seeProfile_photos_user {
   id: number;
   username: string;
   avatar: string | null;
-  isFollowing: boolean;
-  isMe: boolean;
 }
 
 export interface seeProfile_seeProfile_photos {

@@ -1,24 +1,10 @@
 import { gql } from "@apollo/client";
 
-export const COMMENT_FRAGMENT = gql`
-  fragment CommentFragment on Comment {
-    id
-    user {
-      username
-      avatar
-    }
-    payload
-    isMine
-    createdAt
-  }
-`;
 export const USER_FRAGMENT = gql`
   fragment UserFragment on User {
     id
     username
     avatar
-    isFollowing
-    isMe
   }
 `;
 export const PHOTO_FRAGMENT = gql`
@@ -33,4 +19,17 @@ export const PHOTO_FRAGMENT = gql`
     }
   }
   ${USER_FRAGMENT}
+`;
+export const COMMENT_FRAGMENT = gql`
+  fragment CommentFragment on Comment {
+    id
+    user {
+      id
+      avatar
+      username
+    }
+    payload
+    isMine
+    createdAt
+  }
 `;

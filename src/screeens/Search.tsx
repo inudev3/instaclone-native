@@ -88,9 +88,8 @@ export default function Search({ navigation, route }: SearchScreenProp) {
     return (
       <TouchableOpacity
         onPress={() =>
-          navigation.navigate("Feed", {
-            userId: photo.user.id,
-            lastId: photo.id,
+          navigation.navigate("PhotoScreen", {
+            photoId: photo.id,
           })
         }
       >

@@ -12,8 +12,6 @@ export interface seePhotoLikes_seePhotoLikes {
   id: number;
   username: string;
   avatar: string | null;
-  isFollowing: boolean;
-  isMe: boolean;
 }
 
 export interface seePhotoLikes {

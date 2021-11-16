@@ -12,8 +12,6 @@ export interface searchPhotos_searchPhotos_user {
   id: number;
   username: string;
   avatar: string | null;
-  isFollowing: boolean;
-  isMe: boolean;
 }
 
 export interface searchPhotos_searchPhotos {
