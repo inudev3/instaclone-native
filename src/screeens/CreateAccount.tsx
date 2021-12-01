@@ -14,6 +14,7 @@ import {
 import { isLoggedInVar } from "../apollo";
 import { NativeStackScreenProps } from "react-native-screens/native-stack";
 import { RootStackParamList } from "../types";
+import { CREATE_ACCOUNT_MUTATION } from "../mutations";
 
 const Container = styled.View`
   flex: 1;

@@ -41,47 +41,11 @@ const Input = styled.TextInput<{ width: number }>`
   padding: 5px 10px;
   border-radius: 10px;
 `;
+
 export default function Search({ navigation, route }: SearchScreenProp) {
   const { width } = useWindowDimensions();
   const numColumns = 3;
-  const { handleSubmit, setValue, register, control, watch, getValues } =
-    useForm();
-  const [startQueryFn, { loading, data, called }] = useLazyQuery<searchPhotos>(
-    SEARCH_PHOTOS,
-    {
-      variables: {
-        keyword: getValues("keyword"),
-      },
-    }
-  );
 
-  const SearchBox = () => (
-    <Controller
-      control={control}
-      render={({ field: { onChange, onBlur, value } }) => (
-        <Input
-          width={width}
-          placeholderTextColor="rgba(0,0,0,0.8)"
-          placeholder="Search"
-          autoCapitalize="none"
-          returnKeyLabel="Search"
-          returnKeyType="search"
-          onChangeText={onChange}
-          value={value}
-          onSubmitEditing={startQueryFn}
-          autoCorrect={false}
-        />
-      )}
-      name="keyword"
-      rules={{ required: true, minLength: 3 }}
-    />
-  );
-
-  useEffect(() => {
-    navigation.setOptions({
-      headerTitle: SearchBox,
-    });
-  });
   const renderItem: ListRenderItem<searchPhotos_searchPhotos> = ({
     item: photo,
   }) => {
@@ -94,12 +58,50 @@ export default function Search({ navigation, route }: SearchScreenProp) {
         }
       >
         <Image
-          style={{ width: width / numColumns, height: width / numColumns }}
+          style={{
+            width: width / numColumns,
+            height: width / numColumns,
+          }}
           source={{ uri: photo.file }}
         />
       </TouchableOpacity>
     );
   };
+  const { handleSubmit, setValue, register, control, watch, getValues } =
+    useForm();
+  const [startQueryFn, { loading, data, called }] = useLazyQuery<searchPhotos>(
+    SEARCH_PHOTOS,
+    {
+      variables: {
+        keyword: getValues("keyword"),
+      },
+    }
+  );
+
+  const SearchBox = () => {
+    return (
+      <Controller
+        control={control}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <Input
+            width={width}
+            placeholderTextColor="rgba(0,0,0,0.8)"
+            placeholder="Search"
+            autoCapitalize="none"
+            returnKeyLabel="Search"
+            returnKeyType="search"
+            onChangeText={onChange}
+            value={value}
+            onSubmitEditing={() => startQueryFn}
+            autoCorrect={false}
+          />
+        )}
+        name="keyword"
+        rules={{ required: true, minLength: 3 }}
+      />
+    );
+  };
+
   return (
     <DismissKeyboard>
       <View style={{ flex: 1, backgroundColor: "black" }}>
@@ -126,8 +128,7 @@ export default function Search({ navigation, route }: SearchScreenProp) {
               renderItem={renderItem}
             />
           )
-        ) : null}{" "}
-        //when we didnt search
+        ) : null}
       </View>
     </DismissKeyboard>
   );

@@ -11,7 +11,7 @@ export default function DismissKeyboard({ children }: PropsWithChildren<any>) {
     <TouchableWithoutFeedback
       style={{ flex: 1 }}
       onPress={dismissKeyboard}
-      disabled={Platform.OS === "web"}
+      disabled={Platform.OS === "ios"}
     >
       {children}
     </TouchableWithoutFeedback>

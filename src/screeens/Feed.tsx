@@ -29,7 +29,7 @@ export default function Feed(props: FeedScreenProp) {
   });
   console.log(data?.seeFeed?.length);
   const renderPhoto: ListRenderItem<seeFeed_seeFeed> = ({ item: photo }) => {
-    return <Photo key={photo.id + ""} {...photo} fullView={false} />;
+    return <Photo key={photo.id + ""} {...photo} />;
   };
   const refresh = async () => {
     setRefreshing(true);

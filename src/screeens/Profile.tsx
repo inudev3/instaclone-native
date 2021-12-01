@@ -71,7 +71,7 @@ const Name = styled.View`
 
 const Separator = styled.View``;
 const ProfilePhoto = styled.TouchableOpacity`
-  width: 33vw;
+  width: 33%;
   height: 150px;
   flex: 1;
   overflow: hidden;
@@ -106,7 +106,6 @@ export default function Profile({
   );
   const { width, height } = useWindowDimensions();
 
-  console.log(data);
   const renderPhoto: ListRenderItem<seeProfile_seeProfile_photos> = ({
     item: photo,
   }) => {
@@ -120,7 +119,11 @@ export default function Profile({
       >
         <Image
           source={{ uri: photo?.file }}
-          style={{ height: width / 3, width: width / 3, borderColor: "white" }}
+          style={{
+            height: width / 3,
+            width: width / 3,
+            borderColor: "white",
+          }}
         />
       </ProfilePhoto>
     );
@@ -134,7 +137,7 @@ export default function Profile({
         </AvatarContainer>
         <UserInfo>
           <UserName>
-            <Text style={{ width: 50, color: "white", fontWeight: 500 }}>
+            <Text style={{ width: 50, color: "white", fontWeight: "500" }}>
               {data?.seeProfile?.username}
             </Text>
             <FollowBtn

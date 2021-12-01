@@ -31,5 +31,21 @@ export const COMMENT_FRAGMENT = gql`
     payload
     isMine
     createdAt
+    photo {
+      id
+    }
   }
+`;
+export const FEED_PHOTO_FRAGMENT = gql`
+  fragment FeedPhoto on Photo {
+    ...PhotoFragment
+    caption
+    createdAt
+    isMine
+    comments {
+      ...CommentFragment
+    }
+  }
+  ${PHOTO_FRAGMENT}
+  ${COMMENT_FRAGMENT}
 `;

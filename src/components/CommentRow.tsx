@@ -17,12 +17,13 @@ import { deleteComment } from "../__generated__/deleteComment";
 import { cache } from "../apollo";
 import { SubmitHandler, useForm } from "react-hook-form";
 import useMe from "../hooks/useMe";
+import { seeFeed_seeFeed_comments } from "../__generated__/seeFeed";
 
 const Wrapper = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  pading: 5px 10px;
+  padding: 5px 10px;
 `;
 
 const Column = styled.TouchableOpacity`
@@ -50,7 +51,7 @@ const Username = styled.Text`
   margin-right: 10px;
 `;
 const Payload = styled.Text`
-  font-weight: 450;
+  font-weight: 400;
   color: white;
 `;
 const DeleteButton = styled.TouchableOpacity`
@@ -66,11 +67,11 @@ type CommentForm = {
 export const CommentRow = ({
   fullView,
   ...comment
-}: seePhotoComments_seePhotoComments & { fullView: boolean }) => {
+}: (seeFeed_seeFeed_comments | seePhotoComments_seePhotoComments) & {
+  fullView: boolean;
+}) => {
   const { register, handleSubmit, getValues, control, setValue } =
     useForm<CommentForm>();
-  const { edit } = getValues();
-  const [editMode, setEditMode] = useState(false);
 
   const { id, user, payload, isMine, createdAt, photo } = comment;
 
@@ -105,14 +106,10 @@ export const CommentRow = ({
     <Wrapper>
       <Column
         onPress={() =>
-          navigation.navigate("Profile", {
-            id,
-            username: user.username,
-          })
+          navigation.navigate("Profile", { username: user.username })
         }
       >
         {fullView ? <Avatar source={{ uri: user.avatar }} /> : null}
-
         <CommentInfo style={{ flexDirection: "row" }}>
           <View style={{ flexDirection: "column" }}>
             <View style={{ flexDirection: "row" }}>

@@ -17,7 +17,7 @@ import { gql, useMutation } from "@apollo/client";
 import { BSname } from "../__generated__/BSname";
 import { toggleLike } from "../__generated__/toggleLike";
 import { TOGGLE_LIKE_MUTATION } from "../mutations";
-import CommentSection from "./CommentSection";
+
 import { seePhoto_seePhoto } from "../__generated__/seePhoto";
 import { CommentRow } from "./CommentRow";
 
@@ -70,7 +70,7 @@ export default function Photo({
     useMutation<toggleLike>(TOGGLE_LIKE_MUTATION, {
       variables: { id },
       //refetchQueries: [{ query: FEED_QUERY }], refetching the whole query is not a good idea
-      update: (cache, result) => {
+      update: (cache, result: any) => {
         console.log(isLiked);
         const {
           data: {
@@ -96,17 +96,13 @@ export default function Photo({
         }
       },
     });
-  const navigation = useNavigation<FeedScreenProp>();
+  const navigation = useNavigation();
   const { width, height } = useWindowDimensions();
-  const goToProfile = (_) => {
+  const goToProfile = (_: any) => {
     navigation.navigate("Profile", { username: user.username, id: user.id });
   };
   const [imageHeight, setImageHeight] = useState(height - 450);
-  useEffect(() => {
-    Image.getSize(file, (width, height) => {
-      setImageHeight(height / 3);
-    });
-  }, [file]);
+
   return (
     <Container>
       <Header
@@ -139,7 +135,7 @@ export default function Photo({
         </Actions>
 
         <Likes onPress={() => navigation.navigate("Likes", { photoId: id })}>
-          {likes === 1 ? "1 like" : `${likes} likes`}
+          <Text>{likes === 1 ? "1 like" : `${likes} likes`}</Text>
         </Likes>
         <Caption>
           <TouchableOpacity onPress={goToProfile}>
@@ -149,23 +145,16 @@ export default function Photo({
         </Caption>
         {commentNumber > 3 ? (
           <>
-            <Text
-              onPress={() =>
-                navigation.navigate("Comments", { photoId: photo.id })
-              }
-            >
-              ...댓글 {commentNumber - 3}개 더 보기
-            </Text>
-            {comments.slice(-3, 3).map((comment) => (
-              <CommentRow {...comment} fullView={false} />
+            <Text>...댓글 {commentNumber - 3}개 더 보기</Text>
+            {comments?.slice(-3, 3).map((comment) => (
+              <CommentRow key={comment?.id} {...comment} fullView={false} />
             ))}
           </>
-        ) : (
-          comments &&
+        ) : comments ? (
           comments.map((comment) => (
-            <CommentRow {...comment} fullView={false} />
+            <CommentRow key={comment?.id} {...comment} fullView={false} />
           ))
-        )}
+        ) : null}
       </ExtraContainer>
     </Container>
   );

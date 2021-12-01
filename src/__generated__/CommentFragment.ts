@@ -14,6 +14,11 @@ export interface CommentFragment_user {
   username: string;
 }
 
+export interface CommentFragment_photo {
+  __typename: "Photo";
+  id: number;
+}
+
 export interface CommentFragment {
   __typename: "Comment";
   id: number;
@@ -21,4 +26,5 @@ export interface CommentFragment {
   payload: string;
   isMine: boolean;
   createdAt: string;
+  photo: CommentFragment_photo;
 }

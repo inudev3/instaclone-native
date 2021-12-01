@@ -14,43 +14,70 @@ export type TabParamList = {
   Feed: { userId: number; lastId: number } | undefined;
   Notifications: undefined;
   Search: undefined;
-  Profile: { username: string } | undefined;
+  Profile: { username: string | undefined } | undefined;
   PhotoScreen: { photoId: number } | undefined;
-  Me: undefined;
+  Me: { username: string } | undefined;
   Likes: { photoId: number } | undefined;
   Comments: { photoId: number } | undefined;
 };
-
+export type LoginStackParamList = {
+  UploadForm: { uri: string } | undefined;
+  Upload: undefined;
+  Tabs: undefined;
+};
+export type UploadTabParamList = {
+  SelectRoot: undefined;
+  TakeRoot: undefined;
+};
+export type SelectStackParamList = {
+  Select: undefined;
+};
+export type SelectPhoroScreenProp = CompositeScreenProps<
+  BottomTabScreenProps<UploadTabParamList, "SelectRoot">,
+  NativeStackScreenProps<SelectStackParamList>
+>;
+export type TakePhotoScreenProp = BottomTabScreenProps<
+  UploadTabParamList,
+  "TakeRoot"
+>;
 type ProfileScreenTabProp = BottomTabScreenProps<TabParamList, "Profile">;
 type ProfileScreenStackProp = NativeStackScreenProps<TabParamList, "Profile">;
 
+export type UploadScreenProp = CompositeScreenProps<
+  BottomTabScreenProps<LoginStackParamList, "Upload">,
+  NativeStackScreenProps<LoginStackParamList>
+>;
+export type UploadFormScreenProp = BottomTabScreenProps<
+  LoginStackParamList,
+  "UploadForm"
+>;
 export type ProfileScreenProp = CompositeScreenProps<
-  NativeStackScreenProps<TabParamList, "Profile">,
-  BottomTabScreenProps<TabParamList>
+  BottomTabScreenProps<TabParamList, "Profile">,
+  NativeStackScreenProps<TabParamList>
 >;
 
 export type PhotoScreenProp = CompositeScreenProps<
-  NativeStackScreenProps<TabParamList, "PhotoScreen">,
-  BottomTabScreenProps<TabParamList>
+  BottomTabScreenProps<TabParamList, "PhotoScreen">,
+  NativeStackScreenProps<TabParamList>
 >;
 export type SearchScreenProp = CompositeScreenProps<
-  NativeStackScreenProps<TabParamList, "Search">,
-  BottomTabScreenProps<TabParamList>
+  BottomTabScreenProps<TabParamList, "Search">,
+  NativeStackScreenProps<TabParamList>
 >;
 export type NotificationsScreenProp = CompositeScreenProps<
-  NativeStackScreenProps<TabParamList, "Notifications">,
-  BottomTabScreenProps<TabParamList>
+  BottomTabScreenProps<TabParamList, "Notifications">,
+  NativeStackScreenProps<TabParamList>
 >;
 
 export type FeedScreenProp = CompositeScreenProps<
-  NativeStackScreenProps<TabParamList, "Feed">,
-  BottomTabScreenProps<TabParamList>
+  BottomTabScreenProps<TabParamList, "Feed">,
+  NativeStackScreenProps<TabParamList>
 >;
 export type LikeScreenProps = CompositeScreenProps<
-  NativeStackScreenProps<TabParamList, "Likes">,
-  BottomTabScreenProps<TabParamList>
+  BottomTabScreenProps<TabParamList, "Likes">,
+  NativeStackScreenProps<TabParamList>
 >;
 export type CommentScreenProps = CompositeScreenProps<
-  NativeStackScreenProps<TabParamList, "Comments">,
-  BottomTabScreenProps<TabParamList>
+  BottomTabScreenProps<TabParamList, "Comments">,
+  NativeStackScreenProps<TabParamList>
 >;

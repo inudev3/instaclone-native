@@ -1,23 +1,17 @@
-import { StatusBar } from "expo-status-bar";
-import React, { useState } from "react";
-
-import AppLoading from "expo-app-loading";
+import React from "react";
 import { Ionicons } from "@expo/vector-icons";
-import * as Font from "expo-font";
 import { Asset } from "expo-asset";
-import LoggedOutNavigator from "./navigators/LoggedOutNavigator";
-import { NavigationContainer } from "@react-navigation/native";
-import {
-  Appearance,
-  AppearanceProvider,
-  useColorScheme,
-} from "react-native-appearance";
-import { ApolloProvider, useReactiveVar } from "@apollo/client";
+import * as Font from "expo-font";
+
 import client, { cache, isLoggedInVar, tokenVar } from "./apollo";
+import { AsyncStorageWrapper, persistCache } from "apollo3-cache-persist";
+import { Appearance } from "react-native";
+import { ApolloProvider, useReactiveVar } from "@apollo/client";
+import AppLoading from "expo-app-loading";
+import { NavigationContainer } from "@react-navigation/native";
 import LoggedInNav from "./navigators/LoggedInNavigator";
 import LoggedOutNav from "./navigators/LoggedOutNavigator";
-
-import { AsyncStorageWrapper, persistCache } from "apollo3-cache-persist";
+import { useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function App() {
@@ -44,7 +38,7 @@ export default function App() {
     await persistCache({
       cache,
       storage: new AsyncStorageWrapper(AsyncStorage),
-      serialize: false, //schema change를 할 수 있게 하려면 false
+      serialize: false || undefined,
     });
     await preloadAssets();
   };

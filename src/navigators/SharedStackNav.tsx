@@ -10,12 +10,14 @@ import { RootStackParamList, TabParamList } from "../types";
 import PhotoScreen from "../screeens/PhotoScreen";
 import Likes from "../screeens/Likes";
 import Comments from "../screeens/Comments";
+import useMe from "../hooks/useMe";
 
 type Prop = {
   screenName: keyof TabParamList;
 };
 const Stack = createStackNavigator<TabParamList>();
 export default function SharedStackNav({ screenName }: Prop) {
+  const { data } = useMe();
   return (
     <Stack.Navigator
       screenOptions={{
@@ -31,14 +33,14 @@ export default function SharedStackNav({ screenName }: Prop) {
     >
       {screenName === "Feed" ? (
         <Stack.Screen
-          name="Feed"
+          name={"Feed"}
           component={Feed}
           options={{
             headerTitle: (props) => (
               <Image
                 style={{
-                  width: "100px",
-                  height: "100px",
+                  width: 100,
+                  height: 100,
                 }}
                 resizeMode="contain"
                 source={require("../../assets/instagram-logo-black-on-white.webp")}
@@ -48,22 +50,28 @@ export default function SharedStackNav({ screenName }: Prop) {
         />
       ) : null}
       {screenName === "Search" ? (
-        <Stack.Screen name="Search" component={Search} />
+        <Stack.Screen name={"Search"} component={Search} />
       ) : null}
       {screenName === "Notifications" ? (
         <Stack.Screen name="Notifications" component={Notifications} />
       ) : null}
-      {screenName === "Me" ? <Stack.Screen name="Me" component={Me} /> : null}
+      {screenName === "Me" ? (
+        <Stack.Screen
+          name={"Me"}
+          component={Profile}
+          initialParams={{ username: data?.me?.username }}
+        />
+      ) : null}
       <Stack.Screen
-        name="Profile"
+        name={"Profile"}
         component={Profile}
         options={({ route }) => ({
           title: route.params?.username,
         })}
       />
-      <Stack.Screen name="PhotoScreen" component={PhotoScreen} />
-      <Stack.Screen name="Likes" component={Likes} />
-      <Stack.Screen name="Comments" component={Comments} />
+      <Stack.Screen name={"PhotoScreen"} component={PhotoScreen} />
+      <Stack.Screen name={"Likes"} component={Likes} />
+      <Stack.Screen name={"Comments"} component={Comments} />
     </Stack.Navigator>
   );
 }

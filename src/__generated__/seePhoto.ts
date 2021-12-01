@@ -21,6 +21,11 @@ export interface seePhoto_seePhoto_comments_user {
   username: string;
 }
 
+export interface seePhoto_seePhoto_comments_photo {
+  __typename: "Photo";
+  id: number;
+}
+
 export interface seePhoto_seePhoto_comments {
   __typename: "Comment";
   id: number;
@@ -28,6 +33,7 @@ export interface seePhoto_seePhoto_comments {
   payload: string;
   isMine: boolean;
   createdAt: string;
+  photo: seePhoto_seePhoto_comments_photo;
 }
 
 export interface seePhoto_seePhoto {

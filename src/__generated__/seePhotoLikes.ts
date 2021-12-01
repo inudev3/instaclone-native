@@ -15,7 +15,7 @@ export interface seePhotoLikes_seePhotoLikes {
 }
 
 export interface seePhotoLikes {
-  seePhotoLikes: (seePhotoLikes_seePhotoLikes | null)[] | null;
+  seePhotoLikes: seePhotoLikes_seePhotoLikes[] | null;
 }
 
 export interface seePhotoLikesVariables {

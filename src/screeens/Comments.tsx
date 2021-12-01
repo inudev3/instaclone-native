@@ -144,7 +144,7 @@ export default function Comments({
                 width={width}
                 placeholder="Comment"
                 placeholderTextColor="gray"
-                returnKeyType="comment"
+                returnKeyType="done"
                 onChangeText={onChange}
                 value={value}
               />
