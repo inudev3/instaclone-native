@@ -4,7 +4,7 @@ module.exports = {
     tagName: "gql",
     service: {
       name: "instaclone-backend",
-      url: "http://ba9d-39-118-200-159.ngrok.io/graphql",
+      url: "http://localhost:4000/graphql",
     },
   },
 };

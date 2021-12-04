@@ -104,16 +104,18 @@ export const CommentRow = ({
 
   return (
     <Wrapper>
-      <Column
-        onPress={() =>
-          navigation.navigate("Profile", { username: user.username })
-        }
-      >
+      <Column>
         {fullView ? <Avatar source={{ uri: user.avatar }} /> : null}
         <CommentInfo style={{ flexDirection: "row" }}>
           <View style={{ flexDirection: "column" }}>
             <View style={{ flexDirection: "row" }}>
-              <Username>{user.username}</Username>
+              <Username
+                onPress={() =>
+                  navigation.navigate("Profile", { username: user.username })
+                }
+              >
+                {user.username}
+              </Username>
               <Payload>{payload}</Payload>
             </View>
             {fullView && (

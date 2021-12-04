@@ -31,9 +31,6 @@ export const COMMENT_FRAGMENT = gql`
     payload
     isMine
     createdAt
-    photo {
-      id
-    }
   }
 `;
 export const FEED_PHOTO_FRAGMENT = gql`
@@ -48,4 +45,25 @@ export const FEED_PHOTO_FRAGMENT = gql`
   }
   ${PHOTO_FRAGMENT}
   ${COMMENT_FRAGMENT}
+`;
+export const ROOM_FRAGMENT = gql`
+  fragment RoomFragment on Room {
+    id
+    unreadTotal
+    users {
+      avatar
+      username
+    }
+  }
+`;
+export const MESSAGE_FRAGMENT = gql`
+  fragment messageFragment on Message {
+    id
+    payload
+    user {
+      avatar
+      username
+    }
+    read
+  }
 `;

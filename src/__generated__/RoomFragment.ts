@@ -4,20 +4,18 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: seePhotoLikes
+// GraphQL fragment: RoomFragment
 // ====================================================
 
-export interface seePhotoLikes_seePhotoLikes {
+export interface RoomFragment_users {
   __typename: "User";
-  id: number;
-  username: string;
   avatar: string | null;
+  username: string;
 }
 
-export interface seePhotoLikes {
-  seePhotoLikes: (seePhotoLikes_seePhotoLikes | null)[] | null;
-}
-
-export interface seePhotoLikesVariables {
+export interface RoomFragment {
+  __typename: "Room";
   id: number;
+  unreadTotal: number;
+  users: (RoomFragment_users | null)[] | null;
 }

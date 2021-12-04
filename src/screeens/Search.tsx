@@ -35,8 +35,8 @@ const MessageText = styled.Text`
   font-weight: 600;
 `;
 const Input = styled.TextInput<{ width: number }>`
-  background-color: rgba(255, 255, 255, 1);
-  color: black;
+  background-color: black;
+  color: white;
   width: ${(props) => props.width / 2}px;
   padding: 5px 10px;
   border-radius: 10px;
@@ -77,7 +77,13 @@ export default function Search({ navigation, route }: SearchScreenProp) {
       },
     }
   );
-
+  const onValid: SubmitHandler<{ keyword: string }> = ({ keyword }) => {
+    startQueryFn({
+      variables: {
+        keyword,
+      },
+    });
+  };
   const SearchBox = () => {
     return (
       <Controller
@@ -92,15 +98,21 @@ export default function Search({ navigation, route }: SearchScreenProp) {
             returnKeyType="search"
             onChangeText={onChange}
             value={value}
-            onSubmitEditing={() => startQueryFn}
+            onSubmitEditing={handleSubmit(onValid)}
             autoCorrect={false}
+            showVerticalScrollIndicator={false}
           />
         )}
         name="keyword"
-        rules={{ required: true, minLength: 3 }}
+        rules={{ required: true }}
       />
     );
   };
+  useEffect(() => {
+    navigation.setOptions({
+      headerTitle: SearchBox,
+    });
+  }, []);
 
   return (
     <DismissKeyboard>

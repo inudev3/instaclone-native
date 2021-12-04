@@ -39,7 +39,10 @@ const HeaderRightText = styled.Text`
 type UploadForm = {
   caption: string;
 };
-export default function UploadForm({ navigation, route: { params } }) {
+export default function UploadForm({
+  navigation,
+  route: { params },
+}: UploadFormScreenProp) {
   const { register, handleSubmit, control } = useForm<UploadForm>();
   console.log(params);
   const [uploadPhotoMutation, { loading, data, error }] = useMutation(
@@ -51,23 +54,15 @@ export default function UploadForm({ navigation, route: { params } }) {
         } = result;
 
         if (uploadPhoto.id) {
-          const newPhoto = {
-            __typename: "Photo",
-            ...uploadPhoto,
-          };
-          const newCachePhoto = cache.writeFragment({
-            data: newPhoto,
-            fragment: FEED_PHOTO_FRAGMENT,
-            fragmentName: "FeedPhoto",
-          });
           cache.modify({
             id: "ROOT_QUERY",
             fields: {
               seeFeed(prev) {
-                return [...prev, newCachePhoto];
+                return [uploadPhoto, ...prev];
               },
             },
           });
+          navigation.navigate("Tabs");
         }
       },
     }

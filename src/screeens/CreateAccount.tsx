@@ -31,7 +31,15 @@ export default function CreateAccount({
   navigation,
 }: NativeStackScreenProps<RootStackParamList, "CreateAccount">) {
   const { register, handleSubmit, control, formState, getValues, watch } =
-    useForm<FormProps>();
+    useForm<FormProps>({
+      defaultValues: {
+        firstName: "",
+        lastName: "",
+        username: "",
+        email: "",
+        password: "",
+      },
+    });
   const [createAccountMutation, { loading }] = useMutation<
     createAccount,
     createAccountVariables

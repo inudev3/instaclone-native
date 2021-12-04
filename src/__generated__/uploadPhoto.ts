@@ -4,56 +4,57 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: seeFeed
+// GraphQL mutation operation: uploadPhoto
 // ====================================================
 
-export interface seeFeed_seeFeed_user {
+export interface uploadPhoto_uploadPhoto_user {
   __typename: "User";
   id: number;
   username: string;
   avatar: string | null;
 }
 
-export interface seeFeed_seeFeed_comments_user {
+export interface uploadPhoto_uploadPhoto_comments_user {
   __typename: "User";
   id: number;
   avatar: string | null;
   username: string;
 }
 
-export interface seeFeed_seeFeed_comments_photo {
+export interface uploadPhoto_uploadPhoto_comments_photo {
   __typename: "Photo";
   id: number;
 }
 
-export interface seeFeed_seeFeed_comments {
+export interface uploadPhoto_uploadPhoto_comments {
   __typename: "Comment";
   id: number;
-  user: seeFeed_seeFeed_comments_user;
+  user: uploadPhoto_uploadPhoto_comments_user;
   payload: string;
   isMine: boolean;
   createdAt: string;
-  photo: seeFeed_seeFeed_comments_photo;
+  photo: uploadPhoto_uploadPhoto_comments_photo;
 }
 
-export interface seeFeed_seeFeed {
+export interface uploadPhoto_uploadPhoto {
   __typename: "Photo";
   id: number;
   file: string;
   likes: number;
   commentNumber: number;
   isLiked: boolean;
-  user: seeFeed_seeFeed_user;
+  user: uploadPhoto_uploadPhoto_user;
   caption: string | null;
   createdAt: string;
   isMine: boolean;
-  comments: (seeFeed_seeFeed_comments | null)[] | null;
+  comments: (uploadPhoto_uploadPhoto_comments | null)[] | null;
 }
 
-export interface seeFeed {
-  seeFeed: (seeFeed_seeFeed | null)[] | null;
+export interface uploadPhoto {
+  uploadPhoto: uploadPhoto_uploadPhoto | null;
 }
 
-export interface seeFeedVariables {
-  lastId?: number | null;
+export interface uploadPhotoVariables {
+  file: any;
+  caption: string;
 }

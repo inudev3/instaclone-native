@@ -4,56 +4,48 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: seeFeed
+// GraphQL fragment: FeedPhoto
 // ====================================================
 
-export interface seeFeed_seeFeed_user {
+export interface FeedPhoto_user {
   __typename: "User";
   id: number;
   username: string;
   avatar: string | null;
 }
 
-export interface seeFeed_seeFeed_comments_user {
+export interface FeedPhoto_comments_user {
   __typename: "User";
   id: number;
   avatar: string | null;
   username: string;
 }
 
-export interface seeFeed_seeFeed_comments_photo {
+export interface FeedPhoto_comments_photo {
   __typename: "Photo";
   id: number;
 }
 
-export interface seeFeed_seeFeed_comments {
+export interface FeedPhoto_comments {
   __typename: "Comment";
   id: number;
-  user: seeFeed_seeFeed_comments_user;
+  user: FeedPhoto_comments_user;
   payload: string;
   isMine: boolean;
   createdAt: string;
-  photo: seeFeed_seeFeed_comments_photo;
+  photo: FeedPhoto_comments_photo;
 }
 
-export interface seeFeed_seeFeed {
+export interface FeedPhoto {
   __typename: "Photo";
   id: number;
   file: string;
   likes: number;
   commentNumber: number;
   isLiked: boolean;
-  user: seeFeed_seeFeed_user;
+  user: FeedPhoto_user;
   caption: string | null;
   createdAt: string;
   isMine: boolean;
-  comments: (seeFeed_seeFeed_comments | null)[] | null;
-}
-
-export interface seeFeed {
-  seeFeed: (seeFeed_seeFeed | null)[] | null;
-}
-
-export interface seeFeedVariables {
-  lastId?: number | null;
+  comments: (FeedPhoto_comments | null)[] | null;
 }

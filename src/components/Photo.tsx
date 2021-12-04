@@ -6,6 +6,8 @@ import {
   TouchableOpacity,
   useWindowDimensions,
   Text,
+  Modal,
+  Alert,
 } from "react-native";
 
 import { FeedScreenProp, TabParamList } from "../types";
@@ -105,11 +107,7 @@ export default function Photo({
 
   return (
     <Container>
-      <Header
-        onPress={() =>
-          navigation.navigate("Profile", { username: user.username })
-        }
-      >
+      <Header onPress={goToProfile}>
         <UserAvatar resizeMode="cover" source={{ uri: user.avatar }} />
         <Username>{user.username}</Username>
       </Header>

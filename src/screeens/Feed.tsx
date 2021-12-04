@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -6,6 +6,7 @@ import {
   FlatList,
   FlatListProps,
   ListRenderItem,
+  TouchableOpacity,
 } from "react-native";
 import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import { FeedScreenProp, TabParamList } from "../types";
@@ -17,20 +18,34 @@ import Photo from "../components/Photo";
 import { NativeStackScreenProps } from "react-native-screens/native-stack";
 import { set } from "react-hook-form";
 import { FEED_QUERY } from "../queries";
+import { Ionicons } from "@expo/vector-icons";
 
-export default function Feed(props: FeedScreenProp) {
+export default function Feed({ navigation, route }: FeedScreenProp) {
   const [refreshing, setRefreshing] = useState(false);
 
   const { data, loading, fetchMore, refetch } = useQuery<seeFeed>(FEED_QUERY, {
     variables: {
       lastId: 0,
-      ...(props.route.params?.userId && { userId: props.route.params?.userId }),
+      ...(route.params?.userId && { userId: route.params?.userId }),
     },
   });
   console.log(data?.seeFeed?.length);
   const renderPhoto: ListRenderItem<seeFeed_seeFeed> = ({ item: photo }) => {
     return <Photo key={photo.id + ""} {...photo} />;
   };
+  const MessagesButton = () => (
+    <TouchableOpacity
+      onPress={() => navigation.navigate("Messages")}
+      style={{ marginRight: 25 }}
+    >
+      <Ionicons name="paper-plane" size={20} color="white" />
+    </TouchableOpacity>
+  );
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: MessagesButton,
+    });
+  }, []);
   const refresh = async () => {
     setRefreshing(true);
     await refetch();

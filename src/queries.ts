@@ -1,5 +1,10 @@
 import { gql } from "@apollo/client";
-import { COMMENT_FRAGMENT, PHOTO_FRAGMENT, USER_FRAGMENT } from "./fragments";
+import {
+  COMMENT_FRAGMENT,
+  PHOTO_FRAGMENT,
+  ROOM_FRAGMENT,
+  USER_FRAGMENT,
+} from "./fragments";
 
 export const SEARCH_PHOTOS = gql`
   query searchPhotos($keyword: String!) {
@@ -81,4 +86,28 @@ export const SEE_PHOTO_QUERY = gql`
   }
   ${PHOTO_FRAGMENT}
   ${COMMENT_FRAGMENT}
+`;
+export const SEE_ROOMS_QUERY = gql`
+  query seeRooms {
+    seeRooms {
+      ...RoomFragment
+    }
+  }
+  ${ROOM_FRAGMENT}
+`;
+export const SEE_ROOM_QUERY = gql`
+  query seeRoom($id: Int!) {
+    seeRoom(id: $id) {
+      id
+      messages {
+        id
+        user {
+          avatar
+          username
+        }
+        read
+        payload
+      }
+    }
+  }
 `;

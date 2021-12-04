@@ -7,6 +7,7 @@ import {
   ListRenderItem,
   TouchableOpacity,
   useWindowDimensions,
+  Button,
 } from "react-native";
 import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import { ProfileScreenProp, TabParamList } from "../types";
@@ -25,6 +26,7 @@ import { seeFeed_seeFeed } from "../__generated__/seeFeed";
 import Photo from "../components/Photo";
 import { SEEPROFILE_QUERY } from "../queries";
 import { TOGGLE_FOLLOW_MUTATION } from "../mutations";
+import { logUserOut } from "../apollo";
 
 const Header = styled.View`
   height: 120px;
@@ -88,7 +90,6 @@ export default function Profile({
   navigation,
   route: { params },
 }: ProfileScreenProp) {
-  console.log(params);
   const { data, loading, refetch, fetchMore } = useQuery<seeProfile>(
     SEEPROFILE_QUERY,
     {
@@ -128,6 +129,7 @@ export default function Profile({
       </ProfilePhoto>
     );
   };
+  console.log(data);
 
   return (
     <>
@@ -145,6 +147,7 @@ export default function Profile({
               isMe={data?.seeProfile?.isMe}
               isFollowing={data?.seeProfile?.isFollowing}
             />
+            <Button title="log out" onPress={async () => await logUserOut()} />
           </UserName>
           <Follow>
             <Count>{data?.seeProfile?.totalFollowers}</Count>

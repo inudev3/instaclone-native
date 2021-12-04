@@ -82,3 +82,11 @@ export const UPLOAD_PHOTO_MUTATION = gql`
   }
   ${FEED_PHOTO_FRAGMENT}
 `;
+export const SEND_MESSAGE_MUTATION = gql`
+  mutation sendMessage($payload: String!, $roomId: Int, $userId: Int) {
+    sendMessage(payload: $payload, roomId: $roomId, userId: $userId) {
+      ok
+      id
+    }
+  }
+`;

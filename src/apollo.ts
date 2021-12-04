@@ -3,13 +3,20 @@ import {
   createHttpLink,
   InMemoryCache,
   makeVar,
+  split,
+  useApolloClient,
+  useReactiveVar,
 } from "@apollo/client";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { setContext } from "@apollo/client/link/context";
-import { offsetLimitPagination } from "@apollo/client/utilities";
+import {
+  getMainDefinition,
+  offsetLimitPagination,
+} from "@apollo/client/utilities";
 import { persistCache } from "apollo3-cache-persist";
 import { onError } from "@apollo/client/link/error";
 import { createUploadLink } from "apollo-upload-client";
+import { WebSocketLink } from "@apollo/client/link/ws";
 
 export const isLoggedInVar = makeVar(false);
 export const tokenVar = makeVar("");
@@ -18,14 +25,16 @@ export const logUserIn = async (token: any) => {
   await AsyncStorage.setItem("token", token);
   isLoggedInVar(true);
   tokenVar(token);
+  console.log(isLoggedInVar);
 };
+
 export const logUserOut = async () => {
   await AsyncStorage.removeItem("token");
   isLoggedInVar(false);
   tokenVar("");
 };
 const httpLink = createHttpLink({
-  uri: "http://ba9d-39-118-200-159.ngrok.io/graphql",
+  uri: "http://bbf3-39-118-200-159.ngrok.io/graphql",
 });
 const authLink = setContext((_, { headers }) => {
   return {
@@ -44,12 +53,28 @@ const onErrorLink = onError(({ graphQLErrors, networkError }) => {
   }
 });
 const uploadHttpLink = createUploadLink({
-  uri: "http://548f-39-118-200-159.ngrok.io/graphql",
+  uri:
+    process.env.NODE_ENV === "production"
+      ? "https://instaclone-backend-inust33.herokuapp.com/graphql"
+      : "http://adf5-39-118-200-159.ngrok.io/graphql",
+});
+const wsLink = new WebSocketLink({
+  uri:
+    process.env.NODE_ENV === "production"
+      ? "wss://instaclone-backend-inust33.herokuapp.com/graphql"
+      : "ws://adf5-39-118-200-159.ngrok.io/graphql",
+  options: {
+    reconnect: true,
+    connectionParams: () => ({
+      token: tokenVar(),
+    }),
+  },
 });
 export const cache = new InMemoryCache({
   typePolicies: {
     Query: {
       fields: {
+        //
         seeFeed: offsetLimitPagination(),
         //     {
         //   keyArgs: false,
@@ -61,9 +86,22 @@ export const cache = new InMemoryCache({
     },
   },
 });
+const allHttpLinks = authLink.concat(onErrorLink).concat(uploadHttpLink);
+const splitLink = split(
+  ({ query }) => {
+    const definition = getMainDefinition(query);
+    return (
+      definition.kind === "OperationDefinition" &&
+      definition.operation === "subscription"
+    );
+  },
+  wsLink,
+  uploadHttpLink
+);
 
 export const client = new ApolloClient({
-  link: authLink.concat(onErrorLink).concat(uploadHttpLink), //httpLink should be the terminating link
+  link: allHttpLinks, //httpLink should be the terminating link
   cache,
 });
+
 export default client;

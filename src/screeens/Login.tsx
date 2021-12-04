@@ -20,9 +20,7 @@ type Props = NativeStackScreenProps<RootStackParamList, "Login">;
 
 export default function Login({ navigation, route: { params } }: Props) {
   const { register, handleSubmit, setValue, control, reset, formState, watch } =
-    useForm<FormProp>({
-      defaultValues: { username: params?.username, password: params?.password },
-    });
+    useForm<FormProp>();
   const [Login, { loading }] = useMutation<login, loginVariables>(
     Login_mutation,
     {
@@ -31,9 +29,11 @@ export default function Login({ navigation, route: { params } }: Props) {
           login: { ok, error, token },
         } = data;
         if (error) {
+          console.log(error);
           return;
         }
         if (ok) {
+          console.log(data);
           await logUserIn(token);
         }
       },
@@ -60,7 +60,7 @@ export default function Login({ navigation, route: { params } }: Props) {
             returnKeyType="next"
             onSubmitEditing={() => onNext(passwordRef)}
             onChangeText={onChange}
-            value={value}
+            value={value || ""}
           />
         )}
         name="username"
@@ -70,15 +70,15 @@ export default function Login({ navigation, route: { params } }: Props) {
         control={control}
         render={({ field: { onChange, onBlur, value } }) => (
           <StyledInput
+            ref={passwordRef}
             placeholder="password"
             autoCapitalize={"none"}
             secureTextEntry
             placeholderTextColor="gray"
             returnKeyType="done"
-            lastOne={true}
             onChangeText={onChange}
             onSubmitEditing={handleSubmit(onValid)}
-            value={value}
+            value={value || ""}
           />
         )}
         name="password"

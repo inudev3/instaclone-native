@@ -40,7 +40,7 @@ export default function App() {
       storage: new AsyncStorageWrapper(AsyncStorage),
       serialize: false || undefined,
     });
-    await preloadAssets();
+    return preloadAssets();
   };
   const subscription = Appearance.addChangeListener(({ colorScheme }) =>
     console.log(colorScheme)
